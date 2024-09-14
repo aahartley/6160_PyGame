@@ -17,7 +17,7 @@ yellow = (255, 255, 0)
 purple = (128, 0, 128)
 
 # Colors with alpha for transparency
-transparent_red = (255, 0, 0, 128)  # 50% transparent red
+transparent_red = (255, 255, 255, 128)  # 50% transparent red
 transparent_green = (0, 255, 0, 128)  # 50% transparent green
 
 # Surface for alpha shapes
