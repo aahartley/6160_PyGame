@@ -29,8 +29,8 @@ class Body:
         # else:
         #     vel[1] = (orig_pos[sum][1] - p.pos[1]) * 1000 * dt
 
-        self.com[0] += self.vel[0] *dt
-        self.com[1] += self.vel[1] *dt
+        self.com[0] += round(self.vel[0] *dt)
+        self.com[1] += round(self.vel[1] *dt)
         if(self.com[0] <= 0):
             self.com[0] = 0
         if(self.com[0] >= 800):
