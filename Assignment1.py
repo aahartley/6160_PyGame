@@ -43,7 +43,6 @@ def save_screenshot(filename='screenshot.png'):
     pygame.image.save(screen, filename)
     print(f"Screenshot saved as {filename}")
 
-clock = pygame.time.Clock()
 # Main loop
 running = True
 while running:
@@ -58,7 +57,6 @@ while running:
             mouse_pos = pygame.mouse.get_pos()
             print(mouse_pos)
             #print(screen.get_at(mouse_pos))
-    clock.tick(60)
     #print(clock.get_fps()) #test to see how slow 
     # Fill background with black
     screen.fill(black)
