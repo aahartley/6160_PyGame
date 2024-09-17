@@ -17,7 +17,7 @@ class Body:
         for p in self.particles:
             # if(not p.rigid):
             #     print("not rigid")
-            pygame.draw.circle(screen, p.color,p.pos,p.radius)
+            pygame.draw.circle(screen, p.color,[round(p.pos[0]),round(p.pos[1])],p.radius)
         
     def update(self, frames, dt):
         if(frames < 200):
