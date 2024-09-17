@@ -1,6 +1,6 @@
 import pygame
 import sys
-import math
+from math import radians 
 
 # Initialize Pygame
 pygame.init()
@@ -102,15 +102,15 @@ while running:
     #nose
     pygame.draw.aalines(human_surface, black,False, [(394, 256),(400, 265),(397, 267)])
     #mouth
-    pygame.draw.arc(human_surface, black, (385,258,25,20),math.radians(200),math.radians(340))
+    pygame.draw.arc(human_surface, black, (385,258,25,20),radians(200),radians(340))
     #torso
     pygame.draw.polygon(human_surface, red, [(391, 289),(368, 298),(376, 364),(414, 364),(422, 298),(399, 289)] )
     #left arm
-    pygame.draw.polygon(human_surface, white, [(369, 318),(364, 318),(343, 330),(363, 355),(357, 360),(326, 330),(367, 299)])
+    pygame.draw.polygon(human_surface, red, [(369, 315),(364, 318),(343, 330),(363, 355),(357, 360),(326, 330),(369, 299)])
     #left hand
     pygame.draw.ellipse(human_surface, dark_beige, (356, 355, 20, 10))
     #right arm
-    pygame.draw.polygon(human_surface, white, [(421, 318),(426, 318),(447, 330),(427, 355),(433, 360),(464, 330),(423, 299)])
+    pygame.draw.polygon(human_surface, red, [(420, 315),(426, 318),(447, 330),(427, 355),(433, 360),(464, 330),(422, 299)])
     #right hand
     pygame.draw.ellipse(human_surface, dark_beige, (413, 355, 20, 10))
     #waist
@@ -148,6 +148,10 @@ while running:
     # pygame.draw.ellipse(rect_surface, (white[0],white[1],white[2],255), (330, 30, 140, 60),1)
     # pygame.draw.ellipse(rect_surface, (white[0],white[1],white[2],255), (310, 20, 180, 80),1)
     # pygame.draw.ellipse(rect_surface, (white[0],white[1],white[2],255), (290, 10, 220, 100),1)
+    # pygame.draw.ellipse(rect_surface, (white[0],white[1],white[2],255), (250, 25, 400, 100),1)
+    # pygame.draw.ellipse(rect_surface, (white[0],white[1],white[2],255), (130, 10, 600, 160),1)
+    # pygame.draw.ellipse(rect_surface, (white[0],white[1],white[2],255), (50, 5, 750, 200),1)
+    # pygame.draw.ellipse(rect_surface, (white[0],white[1],white[2],255), (10, 1, 880, 220),1)
     scaled_surface3 = pygame.transform.smoothscale(rect_surface, (rect_surface.get_width() // 2, rect_surface.get_height() // 2))
     scaled_surface3 = pygame.transform.smoothscale(scaled_surface3, (rect_surface.get_width(), rect_surface.get_height()))
     screen.blit(scaled_surface3,(0,500))

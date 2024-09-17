@@ -42,7 +42,7 @@ while True:
     screen.fill((0, 0, 0))
 
     # Draw a polygon
-    pygame.draw.polygon(screen, red, [(100, 100), (150, 50), (200, 100), (175, 150), (125, 150)])
+    pygame.draw.polygon(screen, red, [(100.01, 100), (150, 50), (200, 100), (175, 150), (125, 150)])
 
     # Draw a line
     pygame.draw.line(screen, green, (50, 300), (200, 300), 5)
