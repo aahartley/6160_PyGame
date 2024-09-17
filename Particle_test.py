@@ -107,8 +107,8 @@ while running:
     dragon.update(frames,dt)
  
     frames += 1
-    for x in range(0,10000,1):
-        pygame.draw.circle(screen, (255,0,0),[round(random.uniform(0,800)),round(random.uniform(0,600))],2)
+    # for x in range(0,2000,1):
+    #     pygame.draw.circle(screen, (255,0,0),[round(random.uniform(0,800)),round(random.uniform(0,600))],2)
 
     pygame.draw.circle(screen, (255,0,0),dragon.com,2)
 
