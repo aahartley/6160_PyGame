@@ -8,7 +8,7 @@ pygame.init()
 # Screen dimensions
 width, height = 800, 600
 screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption('Pygame Drawing Shapes')
+pygame.display.set_caption('Austin Hartley - Assignment1')
 
 # Colors (R, G, B) and with Alpha
 red = (255, 0, 0)
@@ -39,7 +39,7 @@ human_surface = pygame.Surface((width, height), pygame.SRCALPHA)
 skyline_surface = pygame.Surface((width, height), pygame.SRCALPHA)
 
 # Function to save the current screen as a PNG image
-def save_screenshot(filename='screenshot.png'):
+def save_screenshot(filename='Hartley_Assignment1.png'):
     pygame.image.save(screen, filename)
     print(f"Screenshot saved as {filename}")
 

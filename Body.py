@@ -17,7 +17,7 @@ class Body:
         for p in self.particles:
             # if(not p.rigid):
             #     print("not rigid")
-            pygame.draw.circle(screen, p.color,[round(p.pos[0]),round(p.pos[1])],p.radius)
+            pygame.draw.circle(screen, p.color,[int(p.pos[0]),int(p.pos[1])],p.radius)
         
     def update(self, frames, dt):
         if(frames < 200):
@@ -29,8 +29,8 @@ class Body:
         # else:
         #     vel[1] = (orig_pos[sum][1] - p.pos[1]) * 1000 * dt
 
-        self.com[0] += round(self.vel[0] *dt)
-        self.com[1] += round(self.vel[1] *dt)
+        self.com[0] += int(self.vel[0] *dt)
+        self.com[1] += int(self.vel[1] *dt)
         if(self.com[0] <= 0):
             self.com[0] = 0
         if(self.com[0] >= 800):
