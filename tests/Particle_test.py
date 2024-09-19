@@ -49,29 +49,29 @@ clock = pygame.time.Clock()
 
 particles = []
 emitters = [ParticleEmitter([0,0])]
-img = pygame.image.load(os.path.join('.' ,'drag.png')).convert_alpha()
-img = pygame.transform.smoothscale(img, (100, 100))
-font = pygame.font.Font(None, 36)
-sum_x = 0
-sum_y = 0
-non_transparent_pixel_count = 0
-for x in range(0,img.get_width(),1):
-    for y in range(0,img.get_height(),1):
-        pixel_color = img.get_at((x, y))   
-        if(pixel_color[3] > 0):
-            p_x = round(x + width/2)
-            p_y = round(y + height/2)
-            particles.append(Particle([p_x,p_y],[0,0],pixel_color,2))
-            sum_x += p_x
-            sum_y += p_y
-            non_transparent_pixel_count += 1
-print(f"non_transparent_pixel_count: {non_transparent_pixel_count}")
-if non_transparent_pixel_count > 0:
-    dragon_center = [sum_x // non_transparent_pixel_count,  sum_y // non_transparent_pixel_count]
-    print(f"Dragon center: {dragon_center}")
-else:
-    print("No non-transparent pixels found!")
-dragon = Body([0,0],dragon_center,particles)
+# img = pygame.image.load(os.path.join('.' ,'drag.png')).convert_alpha()
+# img = pygame.transform.smoothscale(img, (100, 100))
+# font = pygame.font.Font(None, 36)
+# sum_x = 0
+# sum_y = 0
+# non_transparent_pixel_count = 0
+# for x in range(0,img.get_width(),1):
+#     for y in range(0,img.get_height(),1):
+#         pixel_color = img.get_at((x, y))   
+#         if(pixel_color[3] > 0):
+#             p_x = round(x + width/2)
+#             p_y = round(y + height/2)
+#             particles.append(Particle([p_x,p_y],[0,0],pixel_color,2))
+#             sum_x += p_x
+#             sum_y += p_y
+#             non_transparent_pixel_count += 1
+# print(f"non_transparent_pixel_count: {non_transparent_pixel_count}")
+# if non_transparent_pixel_count > 0:
+#     dragon_center = [sum_x // non_transparent_pixel_count,  sum_y // non_transparent_pixel_count]
+#     print(f"Dragon center: {dragon_center}")
+# else:
+#     print("No non-transparent pixels found!")
+# dragon = Body([0,0],dragon_center,particles)
 # Main loop
 running = True
 frames = 0
@@ -103,14 +103,14 @@ while running:
     screen.blit(fps_text,(0,0))
     #screen.blit(img,(0,0)) 
 
-    dragon.draw(screen)
-    dragon.update(frames,dt)
+    #dragon.draw(screen)
+    #dragon.update(frames,dt)
  
     frames += 1
     # for x in range(0,10000,1):
     #     pygame.draw.circle(screen, (255,0,0),[round(random.uniform(0,800)),round(random.uniform(0,600))],2)
 
-    pygame.draw.circle(screen, (255,0,0),dragon.com,2)
+    #pygame.draw.circle(screen, (255,0,0),dragon.com,2)
 
     # Update display
     pygame.display.flip()
