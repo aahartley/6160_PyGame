@@ -243,6 +243,8 @@ while running:
             print(f"Paddle Mask Size: {paddle.mask.get_size()}")
             print(f"Ball Mask Size: {b.mask.get_size()}")
             offset = (paddle.rect.x - b.rect.x, paddle.rect.y - b.rect.y)
+            offset = (b.rect.x - paddle.rect.x, b.rect.y - paddle.rect.y)
+
             overlap = b.mask.overlap(paddle.mask, offset)
 
             if overlap:
