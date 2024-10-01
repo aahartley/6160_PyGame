@@ -90,6 +90,15 @@ class Ball(pygame.sprite.Sprite):
                 # gradient of the overlap area 
                 dx = self.mask.overlap_area(br.mask, (offset[0] + 1, offset[1])) - self.mask.overlap_area(br.mask, (offset[0] - 1, offset[1]))
                 dy = self.mask.overlap_area(br.mask, (offset[0], offset[1] + 1)) - self.mask.overlap_area(br.mask, (offset[0], offset[1] - 1))
+                area_left = b.mask.overlap_area(paddle.mask, (offset[0] + 1, offset[1])) 
+                area_right = b.mask.overlap_area(paddle.mask, (offset[0] - 1, offset[1])) 
+                area_up = b.mask.overlap_area(paddle.mask, (offset[0], offset[1] + 1))
+                area_down = b.mask.overlap_area(paddle.mask, (offset[0], offset[1] - 1)) 
+
+                dx = area_left - area_right
+                dy = area_up - area_down
+                print(dx)
+                print(dy)
                 #dy neg (br moving down decreases overlap)(ball y is > br y)
                 #dx neg (br moving left increases overlap)(ball x is > br x)
                 if(dx != 0 or dy != 0):
@@ -230,8 +239,6 @@ while running:
             # gradient of the overlap area 
             dx = b.mask.overlap_area(paddle.mask, (offset[0] + 1, offset[1])) - b.mask.overlap_area(paddle.mask, (offset[0] - 1, offset[1]))
             dy = b.mask.overlap_area(paddle.mask, (offset[0], offset[1] + 1)) - b.mask.overlap_area(paddle.mask, (offset[0], offset[1] - 1))
-            dx = paddle.mask.overlap_area(b.mask, (offset[0] + 1, offset[1])) - paddle.mask.overlap_area(b.mask, (offset[0] - 1, offset[1]))
-            dy = paddle.mask.overlap_area(b.mask, (offset[0], offset[1] + 1)) - paddle.mask.overlap_area(b.mask, (offset[0], offset[1] - 1))
             #dy neg (paddle moving down decreases overlap)(ball y is > paddle y)
             #dx neg (paddle moving left increases overlap)(ball x is > paddle x)
             if(dx != 0 or dy != 0):
