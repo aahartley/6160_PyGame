@@ -246,6 +246,7 @@ while running:
             offset = (b.rect.x - paddle.rect.x, b.rect.y - paddle.rect.y)
 
             overlap = b.mask.overlap(paddle.mask, offset)
+            overlap = paddle.mask.overlap(b.mask, offset)
 
             if overlap:
                 # Calculate the extent of overlap manually
