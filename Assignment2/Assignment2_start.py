@@ -230,6 +230,8 @@ while running:
             # gradient of the overlap area 
             dx = b.mask.overlap_area(paddle.mask, (offset[0] + 1, offset[1])) - b.mask.overlap_area(paddle.mask, (offset[0] - 1, offset[1]))
             dy = b.mask.overlap_area(paddle.mask, (offset[0], offset[1] + 1)) - b.mask.overlap_area(paddle.mask, (offset[0], offset[1] - 1))
+            dx = paddle.mask.overlap_area(b.mask, (offset[0] + 1, offset[1])) - paddle.mask.overlap_area(b.mask, (offset[0] - 1, offset[1]))
+            dy = paddle.mask.overlap_area(b.mask, (offset[0], offset[1] + 1)) - paddle.mask.overlap_area(b.mask, (offset[0], offset[1] - 1))
             #dy neg (paddle moving down decreases overlap)(ball y is > paddle y)
             #dx neg (paddle moving left increases overlap)(ball x is > paddle x)
             if(dx != 0 or dy != 0):
