@@ -228,7 +228,7 @@ while running:
                         waiting = False 
                         running = False
 
-
+    #python3 -m pip install -U pygame==2.6.0
     # Check for collisions between paddle and ball AABB
     collisions = pygame.sprite.spritecollide(paddle, balls, False)#, collided=pygame.sprite.collide_mask) 
     if collisions:
@@ -238,8 +238,7 @@ while running:
             # gradient of the overlap area 
             dx = b.mask.overlap_area(paddle.mask, (offset[0] + 1, offset[1])) - b.mask.overlap_area(paddle.mask, (offset[0] - 1, offset[1]))
             dy = b.mask.overlap_area(paddle.mask, (offset[0], offset[1] + 1)) - b.mask.overlap_area(paddle.mask, (offset[0], offset[1] - 1))
-            print(dx)
-            print(dy)
+            #print(f"dx: {dx}, dy: {dy}")  # Debug print to check the gradient values
             #dy neg (paddle moving down decreases overlap)(ball y is > paddle y)
             #dx neg (paddle moving left increases overlap)(ball x is > paddle x)
             if(dx != 0 or dy != 0):
