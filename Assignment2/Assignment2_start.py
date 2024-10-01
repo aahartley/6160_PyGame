@@ -221,44 +221,61 @@ while running:
                         running = False
 
 
-    # Check for collisions between paddle and ball AABB
-    collisions = pygame.sprite.spritecollide(paddle, balls, False)#, collided=pygame.sprite.collide_mask) 
-    if collisions:
-        print("colls")
-        for b in collisions:
-            #more accurate to account for circle
-            offset = (paddle.rect.x - b.rect.x, paddle.rect.y - b.rect.y)
-            # gradient of the overlap area 
-            dx = b.mask.overlap_area(paddle.mask, (offset[0] + 1, offset[1])) - b.mask.overlap_area(paddle.mask, (offset[0] - 1, offset[1]))
-            dy = b.mask.overlap_area(paddle.mask, (offset[0], offset[1] + 1)) - b.mask.overlap_area(paddle.mask, (offset[0], offset[1] - 1))
-            #dy neg (paddle moving down decreases overlap)(ball y is > paddle y)
-            #dx neg (paddle moving left increases overlap)(ball x is > paddle x)
-            if(dx != 0 or dy != 0):
-                # collision normal
-                length = (dx**2 + dy**2)**0.5
-                if length != 0:
-                    normal_x = dx / length
-                    normal_y = -1*dy / length #since up and down is reversed
-                else:
-                    normal_x, normal_y = 0, 0
+    # # Check for collisions between paddle and ball AABB
+    # collisions = pygame.sprite.spritecollide(paddle, balls, False)#, collided=pygame.sprite.collide_mask) 
+    # if collisions:
+    #     for b in collisions:
+    #         #more accurate to account for circle
+    #         offset = (paddle.rect.x - b.rect.x, paddle.rect.y - b.rect.y)
+    #         # gradient of the overlap area 
+    #         dx = b.mask.overlap_area(paddle.mask, (offset[0] + 1, offset[1])) - b.mask.overlap_area(paddle.mask, (offset[0] - 1, offset[1]))
+    #         dy = b.mask.overlap_area(paddle.mask, (offset[0], offset[1] + 1)) - b.mask.overlap_area(paddle.mask, (offset[0], offset[1] - 1))
+    #         #dy neg (paddle moving down decreases overlap)(ball y is > paddle y)
+    #         #dx neg (paddle moving left increases overlap)(ball x is > paddle x)
+    #         if(dx != 0 or dy != 0):
+    #             # collision normal
+    #             length = (dx**2 + dy**2)**0.5
+    #             if length != 0:
+    #                 normal_x = dx / length
+    #                 normal_y = -1*dy / length #since up and down is reversed
+    #             else:
+    #                 normal_x, normal_y = 0, 0
 
-                #treat top of paddle as infinite plane
-                if(normal_y >= 0.8): #leeway for edges
-                    b.speed_y = -BALL_SPEED
-                    hits_with_paddle += 1
-                    if(hits_with_paddle % 2 == 0): #every 2nd hit
-                        new_ball = Ball()
-                        balls.add(new_ball)
-                        all_sprites.add(new_ball)
-                elif(normal_y <= -0.8):
-                     b.speed_y = BALL_SPEED
-                else: #if below plane than keep it outside of the padddle
-                    if(normal_x < 0):
-                        b.rect.right = paddle.rect.left
-                        b.speed_x = -BALL_SPEED
-                    elif(normal_x > 0):
-                        b.rect.left = paddle.rect.right
-                        b.speed_x = BALL_SPEED
+    #             #treat top of paddle as infinite plane
+    #             if(normal_y >= 0.8): #leeway for edges
+    #                 b.speed_y = -BALL_SPEED
+    #                 hits_with_paddle += 1
+    #                 if(hits_with_paddle % 2 == 0): #every 2nd hit
+    #                     new_ball = Ball()
+    #                     balls.add(new_ball)
+    #                     all_sprites.add(new_ball)
+    #             elif(normal_y <= -0.8):
+    #                  b.speed_y = BALL_SPEED
+    #             else: #if below plane than keep it outside of the padddle
+    #                 if(normal_x < 0):
+    #                     b.rect.right = paddle.rect.left
+    #                     b.speed_x = -BALL_SPEED
+    #                 elif(normal_x > 0):
+    #                     b.rect.left = paddle.rect.right
+    #                     b.speed_x = BALL_SPEED
+
+    
+    # Check for collisions between paddle and ball AABB
+    collisions = pygame.sprite.spritecollide(paddle, balls, False)
+    if collisions:
+        for b in collisions:
+            # Basic rectangle collision
+            if b.rect.bottom > paddle.rect.top:  # Ball is below paddle
+                b.rect.bottom = paddle.rect.top  # Place ball on top of paddle
+                b.speed_y = -BALL_SPEED
+                hits_with_paddle += 1
+                if hits_with_paddle % 2 == 0:  # Every 2nd hit
+                    new_ball = Ball()
+                    balls.add(new_ball)
+                    all_sprites.add(new_ball)
+            elif b.rect.top < paddle.rect.bottom:  # Ball is above paddle
+                b.rect.top = paddle.rect.bottom  # Place ball below paddle
+                b.speed_y = BALL_SPEED
 
 
     # Clear the screen
