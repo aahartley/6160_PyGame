@@ -245,7 +245,7 @@ while running:
 
             # Check for overlap using the masks
             overlap = paddle.mask.overlap(b.mask, offset)
-
+            print(overlap)
             if overlap:
                 
                 # The overlap result provides the position of the overlap
