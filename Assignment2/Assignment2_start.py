@@ -246,9 +246,8 @@ while running:
             print(f"Calculated Offset: {offset}")
 
             overlap = b.mask.overlap(paddle.mask, offset)
-            overlap = paddle.mask.overlap(b.mask, offset)
 
-            if overlap:
+            if b.mask.overlap(paddle.mask, offset):
                 # Calculate the extent of overlap manually
                 left = max(paddle.rect.left, b.rect.left + offset[0])
                 right = min(paddle.rect.right, b.rect.right + offset[0])
