@@ -34,8 +34,6 @@ pygame.display.set_caption("Assignment2 -Austin Hartley")
 
 clock = pygame.time.Clock()
 
-#Events
-LOST_GAME = pygame.event.custom_type()
 
 # Ball class
 class Ball(pygame.sprite.Sprite):
@@ -187,28 +185,24 @@ while running:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
-        if event.type == LOST_GAME:
-            waiting = True
-            while waiting:
-                over_msg = "You Lose!"
-                score_msg = "Score: " + str(hits_with_paddle)
-                screen.blit(lose_font.render(over_msg, False, (0,0,0)), ((SCREEN_WIDTH // 2)-lose_font.size(over_msg)[0]//2, (SCREEN_HEIGHT //2 )-lose_font.size(over_msg)[1]//2))
-                screen.blit(score_font.render(score_msg, False, (0,0,0)),((SCREEN_WIDTH // 2)-score_font.size(score_msg)[0]//2, lose_font.get_height()//2+(SCREEN_HEIGHT //2 )+score_font.size(score_msg)[1]//2))
-                pygame.display.flip()
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        sys.exit()
-                    if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_ESCAPE:
-                            running = False
-                            waiting = False
-                            
+            running = False     
             
     if(not balls):
-        pygame.event.post(pygame.event.Event(LOST_GAME))
-  
+        waiting = True
+        while waiting:
+            over_msg = "You Lose!"
+            score_msg = "Score: " + str(hits_with_paddle)
+            screen.blit(lose_font.render(over_msg, False, (0,0,0)), ((SCREEN_WIDTH // 2)-lose_font.size(over_msg)[0]//2, (SCREEN_HEIGHT //2 )-lose_font.size(over_msg)[1]//2))
+            screen.blit(score_font.render(score_msg, False, (0,0,0)),((SCREEN_WIDTH // 2)-score_font.size(score_msg)[0]//2, lose_font.get_height()//2+(SCREEN_HEIGHT //2 )+score_font.size(score_msg)[1]//2))
+            pygame.display.flip()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        running = False
+                        waiting = False
     if(not bricks):
         waiting = True
         win_msg = "You Win!"
