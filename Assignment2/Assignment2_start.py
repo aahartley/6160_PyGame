@@ -238,30 +238,17 @@ while running:
             # gradient of the overlap area 
             dx = b.mask.overlap_area(paddle.mask, (offset[0] + 1, offset[1])) - b.mask.overlap_area(paddle.mask, (offset[0] - 1, offset[1]))
             dy = b.mask.overlap_area(paddle.mask, (offset[0], offset[1] + 1)) - b.mask.overlap_area(paddle.mask, (offset[0], offset[1] - 1))
-            # print(dx)
-            # print(dy)
-            print(f"Paddle Mask Size: {paddle.mask.get_size()}")
-            print(f"Ball Mask Size: {b.mask.get_size()}")
-            offset = (paddle.rect.x - b.rect.x, paddle.rect.y - b.rect.y)
-            offset = (b.rect.x - paddle.rect.x, b.rect.y - paddle.rect.y)
+            # Predefined offsets for ball-to-paddle collision
+            OFFSET_X = 1  # Adjust as needed
+            OFFSET_Y = 1  # Adjust as needed
 
-            print(f"Calculated Offset: {offset}")
-
-            overlap = b.mask.overlap(paddle.mask, offset)
-            overlap = paddle.mask.overlap(b.mask, offset)
-
-            print("overlap "  + str(overlap))
-            if b.mask.overlap(paddle.mask, offset):
-                # Calculate the extent of overlap manually
-                left = max(paddle.rect.left, b.rect.left + offset[0])
-                right = min(paddle.rect.right, b.rect.right + offset[0])
-                top = max(paddle.rect.top, b.rect.top + offset[1])
-                bottom = min(paddle.rect.bottom, b.rect.bottom + offset[1])
-
-                overlap_area = (right - left) * (bottom - top)
-                print(f"Calculated Overlap Area: {overlap_area}")
-
-
+            # Calculate overlap area
+            dx = b.mask.overlap_area(paddle.mask, (paddle.rect.x + OFFSET_X, b.rect.y)) - \
+                b.mask.overlap_area(paddle.mask, (paddle.rect.x - OFFSET_X, b.rect.y))
+            dy = b.mask.overlap_area(paddle.mask, (b.rect.x, paddle.rect.y + OFFSET_Y)) - \
+                b.mask.overlap_area(paddle.mask, (b.rect.x, paddle.rect.y - OFFSET_Y))
+            print(dx)
+            print(dy)
             #dy neg (paddle moving down decreases overlap)(ball y is > paddle y)
             #dx neg (paddle moving left increases overlap)(ball x is > paddle x)
             if(dx != 0 or dy != 0):
