@@ -244,9 +244,10 @@ while running:
             offset = (paddle.rect.x - b.rect.x, paddle.rect.y - b.rect.y)
 
             # Check for overlap using the masks
-            overlap = b.mask.overlap(paddle.mask, offset)
+            overlap = paddle.mask.overlap(b.mask, offset)
 
             if overlap:
+                
                 # The overlap result provides the position of the overlap
                 # Create a rectangle for the overlap area
                 overlap_rect = pygame.Rect(overlap[0], overlap[1], b.rect.width, b.rect.height)
