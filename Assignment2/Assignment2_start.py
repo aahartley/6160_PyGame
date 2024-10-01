@@ -174,6 +174,14 @@ all_sprites.add(paddle)
 ball = Ball()
 all_sprites.add(ball)
 balls.add(ball)
+def draw_mask(mask, color=(255, 0, 0)):
+    """Create a surface from the mask for visual debugging."""
+    mask_surface = pygame.Surface(mask.get_size())
+    mask_surface.fill((0, 0, 0))  # Fill with black
+    mask_outline = mask.outline()  # Get the outline of the mask
+    if mask_outline:
+        pygame.draw.polygon(mask_surface, color, mask_outline)  # Draw the mask outline in the specified color
+    return mask_surface
 
 # Display initial score (static)
 screen.blit(score_font.render("Score: " + str(hits_with_paddle), False, (0,0,0)), (3,3))
@@ -230,40 +238,12 @@ while running:
             # gradient of the overlap area 
             dx = b.mask.overlap_area(paddle.mask, (offset[0] + 1, offset[1])) - b.mask.overlap_area(paddle.mask, (offset[0] - 1, offset[1]))
             dy = b.mask.overlap_area(paddle.mask, (offset[0], offset[1] + 1)) - b.mask.overlap_area(paddle.mask, (offset[0], offset[1] - 1))
-            area_left = b.mask.overlap_area(paddle.mask, (offset[0] + 1, offset[1])) 
-            area_right = b.mask.overlap_area(paddle.mask, (offset[0] - 1, offset[1])) 
-            area_up = b.mask.overlap_area(paddle.mask, (offset[0], offset[1] + 1)) 
-            area_down = b.mask.overlap_area(paddle.mask, (offset[0], offset[1] - 1)) 
-
-            dx = area_left - area_right
-            dy = area_up - area_down
             # print(dx)
             # print(dy)
+            print(f"Paddle Mask Size: {paddle.mask.get_size()}")
+            print(f"Ball Mask Size: {b.mask.get_size()}")
+        
 
-             # Calculate the offset for overlap detection
-            offset = (paddle.rect.x - b.rect.x, paddle.rect.y - b.rect.y)
-
-            # Check for overlap using the masks
-            overlap = paddle.mask.overlap(b.mask, offset)
-            print(overlap)
-            if overlap:
-                
-                # The overlap result provides the position of the overlap
-                # Create a rectangle for the overlap area
-                overlap_rect = pygame.Rect(overlap[0], overlap[1], b.rect.width, b.rect.height)
-
-                # Calculate the width and height of the overlap area
-                overlap_width = min(overlap_rect.right, paddle.rect.right) - max(overlap_rect.left, paddle.rect.left)
-                overlap_height = min(overlap_rect.bottom, paddle.rect.bottom) - max(overlap_rect.top, paddle.rect.top)
-
-                # Calculate the area of the overlap
-                overlap_area = overlap_width * overlap_height
-
-                # Calculate dx and dy based on overlap area
-                dx = overlap_area if overlap_width != 0 else 0
-                dy = overlap_area if overlap_height != 0 else 0
-
-                print(f"Overlap Area: {overlap_area}, dx: {dx}, dy: {dy}")
 
             #dy neg (paddle moving down decreases overlap)(ball y is > paddle y)
             #dx neg (paddle moving left increases overlap)(ball x is > paddle x)
@@ -301,13 +281,17 @@ while running:
     screen.fill(WHITE)
     # Update sprites
     all_sprites.update()
+# Assuming 'screen' is your main display surface in Pygame
+    paddle_mask_surface = draw_mask(paddle.mask, color=(255, 0, 0))  # Create a red outline for the paddle mask
+
 
     # Draw static score
     screen.blit(score_font.render("Score: " + str(hits_with_paddle), False, (0,0,0)), (3,3))
 
     # Draw sprites
     all_sprites.draw(screen)
-
+    # Display the masks at their respective positions
+    screen.blit(paddle_mask_surface, paddle.rect.topleft)
     # Update the display
     pygame.display.flip()
 
