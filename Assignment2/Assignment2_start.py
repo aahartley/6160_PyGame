@@ -39,7 +39,7 @@ clock = pygame.time.Clock()
 class Ball(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.Surface((BALL_RADIUS * 2, BALL_RADIUS * 2))
+        self.image = pygame.Surface((BALL_RADIUS * 2, BALL_RADIUS * 2),pygame.SRCALPHA)
         pygame.draw.circle(self.image, BLACK, (BALL_RADIUS, BALL_RADIUS), BALL_RADIUS)
         self.rect = self.image.get_rect()
         self.rect.center = (SCREEN_WIDTH // 2 + random.randint(100, 200), SCREEN_HEIGHT // 2 + random.randint(100, 200))
@@ -238,15 +238,6 @@ while running:
             # gradient of the overlap area 
             dx = b.mask.overlap_area(paddle.mask, (offset[0] + 1, offset[1])) - b.mask.overlap_area(paddle.mask, (offset[0] - 1, offset[1]))
             dy = b.mask.overlap_area(paddle.mask, (offset[0], offset[1] + 1)) - b.mask.overlap_area(paddle.mask, (offset[0], offset[1] - 1))
-            # Predefined offsets for ball-to-paddle collision
-            OFFSET_X = 1  # Adjust as needed
-            OFFSET_Y = 1  # Adjust as needed
-
-            # Calculate overlap area
-            dx = b.mask.overlap_area(paddle.mask, (paddle.rect.x + OFFSET_X, b.rect.y)) - \
-                b.mask.overlap_area(paddle.mask, (paddle.rect.x - OFFSET_X, b.rect.y))
-            dy = b.mask.overlap_area(paddle.mask, (b.rect.x, paddle.rect.y + OFFSET_Y)) - \
-                b.mask.overlap_area(paddle.mask, (b.rect.x, paddle.rect.y - OFFSET_Y))
             print(dx)
             print(dy)
             #dy neg (paddle moving down decreases overlap)(ball y is > paddle y)
