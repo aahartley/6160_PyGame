@@ -232,8 +232,6 @@ while running:
             dy = b.mask.overlap_area(paddle.mask, (offset[0], offset[1] + 1)) - b.mask.overlap_area(paddle.mask, (offset[0], offset[1] - 1))
             #dy neg (paddle moving down decreases overlap)(ball y is > paddle y)
             #dx neg (paddle moving left increases overlap)(ball x is > paddle x)
-            print(dx)
-            print(dy)
             if(dx != 0 or dy != 0):
                 # collision normal
                 length = (dx**2 + dy**2)**0.5
@@ -262,22 +260,6 @@ while running:
                         b.speed_x = BALL_SPEED
 
 
-    # # Check for collisions between paddle and ball AABB
-    # collisions = pygame.sprite.spritecollide(paddle, balls, False)
-    # if collisions:
-    #     for b in collisions:
-    #         # Basic rectangle collision
-    #         if b.rect.bottom > paddle.rect.top:  # Ball is below paddle
-    #             b.rect.bottom = paddle.rect.top  # Place ball on top of paddle
-    #             b.speed_y = -BALL_SPEED
-    #             hits_with_paddle += 1
-    #             if hits_with_paddle % 2 == 0:  # Every 2nd hit
-    #                 new_ball = Ball()
-    #                 balls.add(new_ball)
-    #                 all_sprites.add(new_ball)
-    #         elif b.rect.top < paddle.rect.bottom:  # Ball is above paddle
-    #             b.rect.top = paddle.rect.bottom  # Place ball below paddle
-    #             b.speed_y = BALL_SPEED
 
 
     # Clear the screen
