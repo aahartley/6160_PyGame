@@ -3,7 +3,6 @@ import sys
 import os
 import random
 from Particle import Particle, ParticleEmitter
-from Body import Body
 
 # Initialize Pygame
 pygame.init()
@@ -49,19 +48,24 @@ clock = pygame.time.Clock()
 
 particles = []
 emitters = [ParticleEmitter([0,0])]
-# img = pygame.image.load(os.path.join('.' ,'drag.png')).convert_alpha()
-# img = pygame.transform.smoothscale(img, (100, 100))
-# font = pygame.font.Font(None, 36)
-# sum_x = 0
-# sum_y = 0
-# non_transparent_pixel_count = 0
+img = pygame.image.load(os.path.join('.' ,'drag.png')).convert_alpha()
+img = pygame.transform.smoothscale(img, (200, 200))
+font = pygame.font.Font(None, 36)
+sum_x = 0
+sum_y = 0
+non_transparent_pixel_count = 0
+spacing = 5
+
 # for x in range(0,img.get_width(),1):
 #     for y in range(0,img.get_height(),1):
 #         pixel_color = img.get_at((x, y))   
 #         if(pixel_color[3] > 0):
-#             p_x = round(x + width/2)
+#             p_x = round(x + width/2) 
 #             p_y = round(y + height/2)
-#             particles.append(Particle([p_x,p_y],[0,0],pixel_color,2))
+#             p_x = round((x - img.get_width() // 2) * spacing + width // 2)
+#             p_y = round((y - img.get_height() // 2) * spacing + height // 2)
+
+#             particles.append(Particle([p_x,p_y],[0,0],pixel_color,1))
 #             sum_x += p_x
 #             sum_y += p_y
 #             non_transparent_pixel_count += 1
@@ -72,6 +76,41 @@ emitters = [ParticleEmitter([0,0])]
 # else:
 #     print("No non-transparent pixels found!")
 # dragon = Body([0,0],dragon_center,particles)
+
+
+scatter_count = 1000  # The number of particles you want to scatter
+
+# Step 1: Collect all non-transparent pixel positions
+non_transparent_pixel_positions = []
+
+for x in range(0, img.get_width()):
+    for y in range(0, img.get_height()):
+        pixel_color = img.get_at((x, y))
+
+        if pixel_color[3] > 0:  # If pixel is non-transparent
+            non_transparent_pixel_positions.append((x, y))
+
+# Step 2: Randomly select positions to scatter particles
+scattered_positions = random.sample(non_transparent_pixel_positions, min(scatter_count, len(non_transparent_pixel_positions)))
+
+# Step 3: Place particles at the selected positions
+non_transparent_pixel_count = 0
+for pos in scattered_positions:
+    x, y = pos
+    pixel_color = img.get_at((x, y))
+
+    # Calculate position relative to the center and add to particles list
+    p_x = round(x + width / 2 - img.get_width() / 2)
+    p_y = round(y + height / 2 - img.get_height() / 2)
+
+    particles.append(Particle([p_x, p_y], [0, 0], pixel_color, 1))
+    sum_x += p_x
+    sum_y += p_y
+    non_transparent_pixel_count += 1
+
+print(f"Scattered {non_transparent_pixel_count} particles.")
+
+
 # Main loop
 running = True
 frames = 0
@@ -86,31 +125,29 @@ while running:
             if event.key == pygame.K_s:
                 save_screenshot()  # Save screenshot when 'S' key is pressed
             elif event.key == pygame.K_SPACE:
-                dragon.separate()
+                pass
             elif event.key == pygame.K_LEFT:
-                dragon.vel[0] -= 1000 * dt
+                pass
             elif event.key == pygame.K_RIGHT:
-                dragon.vel[0] += 1000 * dt
+                pass
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             print(mouse_pos)
             #print(screen.get_at(mouse_pos))
 
     fps_text = font.render(f"FPS: {int(clock.get_fps())}", True, (255, 255, 255))
-    #print(clock.get_fps()) #test to see how slow 
     # Fill background with black
     screen.fill(black)
     screen.blit(fps_text,(0,0))
     #screen.blit(img,(0,0)) 
 
-    #dragon.draw(screen)
-    #dragon.update(frames,dt)
+    for p in particles:
+        p.draw(screen)
  
     frames += 1
     # for x in range(0,10000,1):
     #     pygame.draw.circle(screen, (255,0,0),[round(random.uniform(0,800)),round(random.uniform(0,600))],2)
 
-    #pygame.draw.circle(screen, (255,0,0),dragon.com,2)
 
     # Update display
     pygame.display.flip()

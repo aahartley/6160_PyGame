@@ -5,6 +5,7 @@ import random
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
 clock = pygame.time.Clock()
+font = pygame.font.Font(None, 40)
 
 # Particle class for teleportation smoke/poof effect
 class Particle:
