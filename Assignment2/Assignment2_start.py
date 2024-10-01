@@ -17,7 +17,7 @@ BALL_SPEED = 2
 PADDLE_SPEED = 10
 BRICK_COLORS = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
 TEXT_SPACE = 50
-FPS = 60
+FPS =60
 
 # Counter for hits with paddle
 hits_with_paddle = 0
@@ -224,6 +224,7 @@ while running:
     # Check for collisions between paddle and ball AABB
     collisions = pygame.sprite.spritecollide(paddle, balls, False)#, collided=pygame.sprite.collide_mask) 
     if collisions:
+        print("colls")
         for b in collisions:
             #more accurate to account for circle
             offset = (paddle.rect.x - b.rect.x, paddle.rect.y - b.rect.y)
