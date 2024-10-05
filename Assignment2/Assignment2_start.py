@@ -174,14 +174,7 @@ all_sprites.add(paddle)
 ball = Ball()
 all_sprites.add(ball)
 balls.add(ball)
-def draw_mask(mask, color=(255, 0, 0)):
-    """Create a surface from the mask for visual debugging."""
-    mask_surface = pygame.Surface(mask.get_size())
-    mask_surface.fill((0, 0, 0))  # Fill with black
-    mask_outline = mask.outline()  # Get the outline of the mask
-    if mask_outline:
-        pygame.draw.polygon(mask_surface, color, mask_outline)  # Draw the mask outline in the specified color
-    return mask_surface
+
 
 # Display initial score (static)
 screen.blit(score_font.render("Score: " + str(hits_with_paddle), False, (0,0,0)), (3,3))
@@ -228,7 +221,6 @@ while running:
                         waiting = False 
                         running = False
 
-    #python3 -m pip install -U pygame==2.6.0
     # Check for collisions between paddle and ball AABB
     collisions = pygame.sprite.spritecollide(paddle, balls, False)#, collided=pygame.sprite.collide_mask) 
     if collisions:
@@ -238,7 +230,7 @@ while running:
             # gradient of the overlap area 
             dx = b.mask.overlap_area(paddle.mask, (offset[0] + 1, offset[1])) - b.mask.overlap_area(paddle.mask, (offset[0] - 1, offset[1]))
             dy = b.mask.overlap_area(paddle.mask, (offset[0], offset[1] + 1)) - b.mask.overlap_area(paddle.mask, (offset[0], offset[1] - 1))
-            #print(f"dx: {dx}, dy: {dy}")  # Debug print to check the gradient values
+            #print(f"dx: {dx}, dy: {dy}")  
             #dy neg (paddle moving down decreases overlap)(ball y is > paddle y)
             #dx neg (paddle moving left increases overlap)(ball x is > paddle x)
             if(dx != 0 or dy != 0):

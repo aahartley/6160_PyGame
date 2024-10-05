@@ -2,7 +2,9 @@ import pygame
 import sys
 
 from scripts.utils import load_image, load_images
-from scripts.particles import Particle, ParticleEmitter
+# from scripts.particles import Particle, ParticleEmitter
+import scripts.sims as sims
+import scripts.particle_emitters as pe
 
 class Game:
     def __init__(self):
@@ -19,9 +21,10 @@ class Game:
             "smoke" : load_image("particles/smoke.png")
         }
         self.font = pygame.font.Font(None, 36)
-        self.particle_emitters = [ParticleEmitter([self.width//2, self.height-100], 100, 1000, self.assets["smoke"])]
+        #self.particle_emitters = [ParticleEmitter([self.width//2, self.height-100], 100, 1000, self.assets["smoke"])]
 
-      
+        self.smoke_sim = sims.create_smoke_sim()
+        self.smoke_sim.add_emitter(pe.ParticleEmitter([400,300], 1, 'random'))
 
 
     def run(self):
@@ -51,15 +54,22 @@ class Game:
                     print(mouse_pos)
                     #print(screen.get_at(mouse_pos))           
 
-            for pe in self.particle_emitters:
-                pe.update(dt)
-                for p in pe.particles:
-                    p.update(dt)
-                    p.draw(self.screen)
-                    particles += 1
+            self.smoke_sim.update(dt)
+            self.smoke_sim.draw(self.screen)
 
-            paritlce_text = self.font.render(f"Particles: {particles}", True, (255, 255, 255))
+            # for pe in self.particle_emitters:
+            #     pe.update(dt)
+            #     for p in pe.particles:
+            #         p.update(dt)
+            #         p.draw(self.screen)
+            #         particles += 1
+
+            paritlce_text = self.font.render(f"Particles: {self.smoke_sim.get_active_nb()}", True, (255, 255, 255))
+            #paritlce_text2 = self.font.render(f"Particles: {self.smoke_sim.get_nb()}", True, (255, 255, 255))
+
             self.screen.blit(paritlce_text,(0,30))
+            #self.screen.blit(paritlce_text2,(0,50))
+
             particles = 0
     
 
