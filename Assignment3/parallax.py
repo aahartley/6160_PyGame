@@ -14,12 +14,14 @@ class Parallax:
         self.offsets = offsets
         self.resized_layers = []
         self.resized_pos = []
-        self.speed = 5
+        self.speed = 100
         self.speed_modifiers = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]  
         self.starts = [0] * len(self.layers) 
+        self.left = False
+        self.right = False
 
         
-    # keep aspect ratio of each layer1 size rest to fit
+    # keep aspect ratio of layer1, size rest to fit
     def resize_layers(self):
         screen_width, screen_height = self.screen.get_width(), self.screen.get_height()
         # based off of layer1
@@ -51,44 +53,47 @@ class Parallax:
             y_pos = int(self.offsets[i][1] * scale_factor) + y_offset
             self.resized_pos.append((x_pos, y_pos))
     
-    def handle_event(self, event):
+    def handle_event(self, event, dt):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                for i in range(len(self.starts)):
-                    self.starts[i] += self.speed * self.speed_modifiers[i]
-
+                self.left = True
+        
             if event.key == pygame.K_RIGHT:
-                for i in range(len(self.starts)):
-                    self.starts[i] -= self.speed * self.speed_modifiers[i]
+                self.right = True
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT:
+                self.left = False
+        
+            if event.key == pygame.K_RIGHT:
+                self.right = False
 
+
+    def update(self,dt):
+        if self.left and not self.right:
+            for i in range(len(self.starts)):
+                self.starts[i] += self.speed * self.speed_modifiers[i] * dt
+        elif self.right and not self.left:
+            for i in range(len(self.starts)):
+                self.starts[i] -= self.speed * self.speed_modifiers[i] * dt
         # reset start when img is scrolled through
         for i in range(len(self.resized_layers)):
             new_image_width = self.resized_layers[i].get_width()
             if abs(self.starts[i]) >= new_image_width:
                 self.starts[i] = 0       
 
+
     def draw(self):
         max_layer_width = max(layer.get_width() for layer in self.resized_layers)
-        # Draw each layer with parallax effect
-        for i, (layer, (x_pos, y_pos)) in enumerate(zip(self.resized_layers, self.resized_pos)):
-            # Adjust position for parallax scrolling
+        for i in range(len(self.resized_layers)):
+            layer = self.resized_layers[i]
+            x_pos, y_pos = self.resized_pos[i]          
             scroll_x = x_pos + self.starts[i]
-            # Draw the image within screen bounds, repeating it if necessary
-            if layer.get_width() < self.screen.get_width() and layer.get_width() == max_layer_width :
-                render_start = scroll_x
-                new_image_width = layer.get_width()
-                
-                self.screen.blit(layer, (render_start, y_pos))
-                self.screen.blit(layer, (render_start - new_image_width, y_pos))
-                self.screen.blit(layer, (render_start + new_image_width, y_pos))
-                
-                # Draw black rectangles to cover any empty space
+            layer_width = layer.get_width()
+            self.screen.blit(layer, (scroll_x, y_pos))
+            self.screen.blit(layer, (scroll_x - layer_width, y_pos))
+            self.screen.blit(layer, (scroll_x + layer_width, y_pos))
+            if(layer_width == max_layer_width):
+                # Draw black rectangles to cover any the images loaded beside (image has border to fit screen)
                 pygame.draw.rect(self.screen, (0, 0, 0), (0, 0, x_pos, self.screen.get_height()))
-                pygame.draw.rect(self.screen, (0, 0, 0), (x_pos + new_image_width, 0, self.screen.get_width() - new_image_width, self.screen.get_height()))
-            else:
-                # Regular parallax rendering for wider images
-                self.screen.blit(layer, (scroll_x, y_pos))
-                self.screen.blit(layer, (scroll_x - layer.get_width(), y_pos))
-                self.screen.blit(layer, (scroll_x + layer.get_width(), y_pos))
-   
-        
+                pygame.draw.rect(self.screen, (0, 0, 0), (x_pos + layer_width, 0, self.screen.get_width() - layer_width, self.screen.get_height()))
+    
