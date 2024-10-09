@@ -87,10 +87,10 @@ class Character(pygame.sprite.Sprite):
       
         #offsets to center
         if self.last_direction == "left":
-            new_pos = (self.position[0]-self.idle_x_offset, self.position[1])
+            new_pos = (int(self.position[0]-self.idle_x_offset), int(self.position[1]))
             self.rect.topleft = new_pos 
         elif self.last_direction == "right":
-            new_pos = (self.position[0]+self.idle_x_offset, self.position[1])
+            new_pos = (int(self.position[0]+self.idle_x_offset), int(self.position[1]))
             self.rect.topright = new_pos
     
 
@@ -128,17 +128,24 @@ class Character(pygame.sprite.Sprite):
         scaled_main_width = old_w * scale_factor
         scaled_main_height = old_h * scale_factor
         
-        x_offset = (new_w - scaled_main_width) // 2 if scaled_main_width < new_w else 0
-        y_offset = (new_h - scaled_main_height) // 2 if scaled_main_height < new_h else 0
+        if scaled_main_width < new_w:
+            x_offset = (new_w - scaled_main_width) // 2
+        else:
+            x_offset = 0
+
+        if scaled_main_height < new_h:
+            y_offset = (new_h - scaled_main_height) // 2
+        else:
+            y_offset = 0
 
       
         self.position[0] = int((self.original_position[0] / old_w) * scaled_main_width) + x_offset
         self.position[1] = int((self.original_position[1] / old_h) * scaled_main_height) + y_offset - self.image.get_height() // 2
         #use offsets to center character
         if self.last_direction =="left":
-            new_pos = (self.position[0]-self.idle_x_offset, self.position[1])
+            new_pos = (int(self.position[0]-self.idle_x_offset), int(self.position[1]))
             self.rect.topleft = new_pos 
         elif self.last_direction == "right":
-            new_pos = (self.position[0]+self.idle_x_offset, self.position[1])
+            new_pos = (int(self.position[0]+self.idle_x_offset), int(self.position[1]))
             self.rect.topright = new_pos
  

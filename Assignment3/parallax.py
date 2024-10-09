@@ -38,7 +38,7 @@ class Parallax:
         else:
             y_offset = 0  #fills screen
  
-        #smoothscale
+        #scale
         for i, layer in enumerate(self.layers):
             new_width = int(layer.get_width() * scale_factor)
             new_height = int(layer.get_height() * scale_factor)
@@ -89,11 +89,11 @@ class Parallax:
             x_pos, y_pos = self.resized_pos[i]          
             scroll_x = x_pos + self.starts[i]
             layer_width = layer.get_width()
-            self.screen.blit(layer, (scroll_x, y_pos))
-            self.screen.blit(layer, (scroll_x - layer_width, y_pos))
-            self.screen.blit(layer, (scroll_x + layer_width, y_pos))
+            self.screen.blit(layer, (int(scroll_x), int(y_pos)))
+            self.screen.blit(layer, (int(scroll_x - layer_width), int(y_pos)))
+            self.screen.blit(layer, (int(scroll_x + layer_width), int(y_pos)))
             if(layer_width == max_layer_width):
                 # Draw black rectangles to cover any the images loaded beside (image has border to fit screen)
-                pygame.draw.rect(self.screen, (0, 0, 0), (0, 0, x_pos, self.screen.get_height()))
-                pygame.draw.rect(self.screen, (0, 0, 0), (x_pos + layer_width, 0, self.screen.get_width() - layer_width, self.screen.get_height()))
+                pygame.draw.rect(self.screen, (0, 0, 0), (0, 0, int(x_pos), int(self.screen.get_height())))
+                pygame.draw.rect(self.screen, (0, 0, 0), (int(x_pos) + int(layer_width), 0, int(self.screen.get_width() - layer_width), int(self.screen.get_height())))
     

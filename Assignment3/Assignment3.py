@@ -19,7 +19,7 @@ player.reposition(para.og_main_width, para.og_main_height, WIDTH, HEIGHT)
 # Main loop
 run = True
 while run:
-    dt = clock.tick(60)/1000
+    dt = clock.tick(30)/1000
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
