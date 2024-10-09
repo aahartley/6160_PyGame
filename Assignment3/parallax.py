@@ -15,7 +15,7 @@ class Parallax:
         self.resized_layers = []
         self.resized_pos = []
         self.speed = 100
-        self.speed_modifiers = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]  
+        self.speed_modifiers = [0.5, 0.6, 0.7, 0.9, 1.0, 1.2, 1.3]  
         self.starts = [0] * len(self.layers) 
         self.left = False
         self.right = False

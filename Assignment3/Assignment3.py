@@ -28,7 +28,6 @@ while run:
 
         if event.type == pygame.VIDEORESIZE:
             #screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-            print(f"\nResizing Screen: New Width = {event.w}, New Height = {event.h}")
             para.resize_layers()
             player.reposition(para.og_main_width, para.og_main_height, event.w, event.h)
 
@@ -36,7 +35,7 @@ while run:
             HEIGHT = event.h
 
         para.handle_event(event, dt)
-        player.handle_event(event, dt , para)
+        player.handle_event(event, dt )
 
     para.update(dt)
     player.update(dt,para)
@@ -44,6 +43,7 @@ while run:
     screen.fill((0, 0, 0))
     para.draw()
     screen.blit(player.image, player.rect)
+    #display aabbs
     # pygame.draw.rect(screen, (0,0,0), (player.position[0], player.position[1],player.rect.width, player.rect.height), 1)
     # pygame.draw.rect(screen, (0,0,0), player.rect, 1)
     # pygame.draw.line(screen, (0,0,0), (WIDTH//2, 0), (WIDTH//2,HEIGHT))
