@@ -44,4 +44,5 @@ class SmokeSim:
 def create_smoke_sim():
     state = states.SmokeState()
     solver = solvers.SmokeSolver(state)
+    #solver.add_Force(pygame.math.Vector2(0,-10))
     return SmokeSim(state, solver)
