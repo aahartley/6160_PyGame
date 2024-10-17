@@ -1,6 +1,17 @@
 import os
 import pygame
 
+
+player_paths = ["x320p_Spritesheets/Idle_Bow/Idle_Bow_Body_", "x320p_Spritesheets/WalkForward_Bow/WalkForward_Bow_Body_",
+                             "x320p_Spritesheets/Attack_Bow/Attack_Bow_Body_", "x320p_Spritesheets/Death_Bow/Death_Bow_Body_"]
+player_shadow_paths = ["x320p_Spritesheets/Idle_Bow/Idle_Bow_Shadow_", "x320p_Spritesheets/WalkForward_Bow/WalkForward_Bow_Shadow_", 
+                                    "x320p_Spritesheets/Attack_Bow/Attack_Bow_Shadow_","x320p_Spritesheets/Death_Bow/Death_Bow_Shadow_"]
+
+                                    
+enemy_paths = ["Skin2_x256_Spritesheets/x256_Spritesheets/Idle/Idle Body ","Skin2_x256_Spritesheets/x256_Spritesheets/Walk/Walk Body "]
+enemy_shadow_paths = ["Skin2_x256_Spritesheets/x256_Spritesheets/Idle/Idle Body ","Skin2_x256_Spritesheets/x256_Spritesheets/Walk/Walk Body "]
+
+prop_paths = ""
 BASE_IMG_PATH = 'data/images/'
 
 def load_image(path):
@@ -34,10 +45,13 @@ def sprite_frame_dict(rows, cols, width, height):
             frame_set[j*cols + i] =  (x, y, width,  height)
     return frame_set
 
-def load_tiles(path):
+def load_tiles(path, rows, cols, width, height):
     tiles = {}
-    tiles[0] = load_image(path).convert_alpha()
-    tiles[0].set_colorkey((0,0,0))
-    tiles[0].set_clip(0,0,256,144)
-    tiles[0]=tiles[0].subsurface(tiles[0].get_clip()).convert_alpha()
+    for j in range(rows):
+        for i in range(cols):
+            tiles[j*cols+i] = load_image(path).convert_alpha()
+            tiles[j*cols+i].set_colorkey((0,0,0))
+            tiles[j*cols+i].set_clip(width*i,height*j,256,144)
+            tiles[j*cols+i]=tiles[j*cols+i].subsurface(tiles[j*cols+i].get_clip()).convert_alpha()
+
     return tiles

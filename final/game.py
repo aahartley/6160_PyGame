@@ -2,11 +2,12 @@ import pygame
 import sys
 import time
 from scripts.utils import load_image, load_images
-from scripts.particles import Particle, ParticleEmitter
+from scripts.particles import Particle, ParticleEmitter, BasicParticle
 import scripts.sims as sims
 import scripts.particle_emitters as pe
 import scripts.player as char
 import scripts.tiles as tile
+import scripts.enemy as en
 class Game:
     def __init__(self):
         pygame.init()
@@ -14,7 +15,6 @@ class Game:
 
         self.width, self.height = 1280, 720
         self.screen = pygame.display.set_mode((self.width, self.height))
-
 
         self.clock = pygame.time.Clock()
 
@@ -27,8 +27,10 @@ class Game:
         # self.smoke_sim = sims.create_smoke_sim()
         # self.smoke_sim.add_emitter(pe.ParticleEmitter([self.width//2,self.height-100], 'random'))
 
-        self.player = char.Character([self.width//2, self.height//2])
+        #self.player = char.Character([self.width//2, self.height//2])
         self.floor = tile.Tile(self.width, self.height)
+        self.pa = BasicParticle([0, self.height//2], [0,0], (255,0,0), 4,3)
+        self.enemy = en.Enemy([self.width//2,self.height//2])
 
 
     def run(self):
@@ -59,13 +61,17 @@ class Game:
                     # mouse_pos = pygame.mouse.get_pos()
                     # print(mouse_pos)
                     pass
-                self.player.handle_event(event)
+                #self.player.handle_event(event)
+                self.enemy.handle_event(event)
                           
-            self.player.update(dt)
-            self.player.draw(self.screen)
+            # self.player.update(dt)
+            # self.player.draw(self.screen)
             # pygame.draw.rect(self.screen, (255,0,0), self.player.rect, 1)
             # pygame.draw.line(self.screen, (255,0,0), (self.width//2, 0), (self.width//2,self.height))
             # pygame.draw.line(self.screen, (255,0,0), (0, self.height//2), (self.width,self.height//2))
+            self.enemy.update(dt)
+            self.enemy.draw(self.screen)
+            
             # start_time = time.time()  # Start timer
             # self.smoke_sim.update(dt)
             # self.smoke_sim.draw(self.screen)
@@ -73,15 +79,16 @@ class Game:
             # smoke_sim_time += end_time-start_time
 
             # start_time = time.time()  # Start timer
-            for pe in self.particle_emitters:
-                pe.update(dt)
-                for p in pe.particles:
-                    p.update(dt)
-                    p.draw(self.screen)
-                    particles += 1
+            # for pe in self.particle_emitters:
+            #     pe.update(dt)
+            #     for p in pe.particles:
+            #         p.update(dt)
+            #         p.draw(self.screen)
+            #         particles += 1
             # end_time = time.time()  # End timer
             # smoke_sim_time += end_time-start_time
-
+            self.pa.update(dt)
+            self.pa.draw(self.screen)
        
             #particle_text = self.font.render(f"Particles: {self.smoke_sim.get_nb()}", True, (255, 255, 255))
             #particle_text2 = self.font.render(f"Particles: {particles}", True, (255, 255, 255))
