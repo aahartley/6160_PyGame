@@ -13,7 +13,11 @@ class Character(pygame.sprite.Sprite):
             'walk': ani.Animation(utils.player_paths[1], utils.player_shadow_paths[1], utils.sprite_frame_dict(4, 6, 320, 320), 60),
             'attack': ani.Animation(utils.player_paths[2],utils.player_shadow_paths[2], utils.sprite_frame_dict(4, 6, 320, 320), 100)
         }
+        self.attack_animations = {
+            'basic_attack': ani.Animation(utils.prop_paths[0], utils.prop_paths[0],utils.sprite_frame_dict(1,1,1024,1024), 60)
+        }
         self.current_animation = self.animations['idle']
+        self.current_attack = None
         self.image, self.shadow_image = self.current_animation.get_current_frames()
         self.rect = self.image.get_rect()
         self.position = pygame.Vector2(position)
@@ -72,6 +76,10 @@ class Character(pygame.sprite.Sprite):
         screen.blit(self.shadow_image, self.rect)
         #screen.blit(self.image, (topleft[0]-1, topleft[1]+25))
         screen.blit(self.image, self.rect)
+        if(self.current_attack != None):
+            aa_image, aa_shadow_image = self.current_attack.get_current_frames()
+            aa_rect = aa_image.get_rect()
+            screen.blit(aa_image, aa_rect)
 
 
 
@@ -99,6 +107,7 @@ class Character(pygame.sprite.Sprite):
                 if event.key == pygame.K_a:
                         self.state = 'attack'
                         self.current_animation = self.animations[self.state]
+                        self.current_attack = self.attack_animations['basic_attack']
                         self.target_position = None
    
  

@@ -27,10 +27,10 @@ class Game:
         # self.smoke_sim = sims.create_smoke_sim()
         # self.smoke_sim.add_emitter(pe.ParticleEmitter([self.width//2,self.height-100], 'random'))
 
-        #self.player = char.Character([self.width//2, self.height//2])
+        self.player = char.Character([self.width//2, self.height//2])
         self.floor = tile.Tile(self.width, self.height)
         self.pa = BasicParticle([0, self.height//2], [0,0], (255,0,0), 4,3)
-        self.enemy = en.Enemy([self.width//2,self.height//2])
+        #self.enemy = en.Enemy([self.width//2,self.height//2])
 
 
     def run(self):
@@ -61,16 +61,16 @@ class Game:
                     # mouse_pos = pygame.mouse.get_pos()
                     # print(mouse_pos)
                     pass
-                #self.player.handle_event(event)
-                self.enemy.handle_event(event)
+                self.player.handle_event(event)
+                #self.enemy.handle_event(event)
                           
-            # self.player.update(dt)
-            # self.player.draw(self.screen)
+            self.player.update(dt)
+            self.player.draw(self.screen)
             # pygame.draw.rect(self.screen, (255,0,0), self.player.rect, 1)
             # pygame.draw.line(self.screen, (255,0,0), (self.width//2, 0), (self.width//2,self.height))
             # pygame.draw.line(self.screen, (255,0,0), (0, self.height//2), (self.width,self.height//2))
-            self.enemy.update(dt)
-            self.enemy.draw(self.screen)
+            #self.enemy.update(dt)
+            #self.enemy.draw(self.screen)
             
             # start_time = time.time()  # Start timer
             # self.smoke_sim.update(dt)

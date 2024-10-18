@@ -11,7 +11,7 @@ player_shadow_paths = ["x320p_Spritesheets/Idle_Bow/Idle_Bow_Shadow_", "x320p_Sp
 enemy_paths = ["Skin2_x256_Spritesheets/x256_Spritesheets/Idle/Idle Body ","Skin2_x256_Spritesheets/x256_Spritesheets/Walk/Walk Body "]
 enemy_shadow_paths = ["Skin2_x256_Spritesheets/x256_Spritesheets/Idle/Idle Body ","Skin2_x256_Spritesheets/x256_Spritesheets/Walk/Walk Body "]
 
-prop_paths = ""
+prop_paths = ["Props/1024x1024/Arrow_Far/Arrow_Far_"]
 BASE_IMG_PATH = 'data/images/'
 
 def load_image(path):
