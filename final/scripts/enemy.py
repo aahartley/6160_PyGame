@@ -9,9 +9,9 @@ class Enemy(pygame.sprite.Sprite):
         super().__init__()
 
         self.animations = {
-            'idle': ani.Animation(utils.enemy_paths[0], utils.enemy_shadow_paths[0], utils.sprite_frame_dict(5, 4, 256, 256), 30),
-            'walk': ani.Animation(utils.enemy_paths[1], utils.enemy_shadow_paths[1], utils.sprite_frame_dict(5, 4, 256, 256), 60),
-            # 'attack': ani.Animation(utils.player_paths[2],utils.player_shadow_paths[2], utils.sprite_frame_dict(4, 6, 320, 320), 100)
+            'idle': ani.Animation(utils.enemy_paths[0], utils.enemy_shadow_paths[0], utils.sprite_frame_dict(5, 4, 256, 256), 30, False,0),
+            'walk': ani.Animation(utils.enemy_paths[1], utils.enemy_shadow_paths[1], utils.sprite_frame_dict(5, 4, 256, 256), 60, False, 0),
+            'attack': ani.Animation(utils.enemy_paths[2],utils.enemy_shadow_paths[2], utils.sprite_frame_dict(5, 4, 256, 256), 100, False, 0)
         }
         self.current_animation = self.animations['idle']
         self.image, self.shadow_image = self.current_animation.get_current_frames()
@@ -19,7 +19,7 @@ class Enemy(pygame.sprite.Sprite):
         self.position = pygame.Vector2(position)
         self.rect.centerx = position[0]
         self.rect.centery = position[1]
-        self.speed = 200
+        self.speed = 100
         self.target_position = None
         self.right_click_held = False
         self.state = 'idle'     
@@ -57,7 +57,7 @@ class Enemy(pygame.sprite.Sprite):
                         self.current_animation = self.animations[self.state]
                         
 
-        self.current_animation.update(self.state, dt, self.angle)                
+        self.current_animation.update( dt, self.angle)                
 
 
   
@@ -99,7 +99,7 @@ class Enemy(pygame.sprite.Sprite):
                 if event.key == pygame.K_a:
                         self.state = 'attack'
                         self.current_animation = self.animations[self.state]
-                        self.target_position = None
+                        #self.target_position = None
    
  
     def calculate_angle(self, position, target_position):

@@ -8,9 +8,10 @@ player_shadow_paths = ["x320p_Spritesheets/Idle_Bow/Idle_Bow_Shadow_", "x320p_Sp
                                     "x320p_Spritesheets/Attack_Bow/Attack_Bow_Shadow_","x320p_Spritesheets/Death_Bow/Death_Bow_Shadow_"]
 
                                     
-enemy_paths = ["Skin2_x256_Spritesheets/x256_Spritesheets/Idle/Idle Body ","Skin2_x256_Spritesheets/x256_Spritesheets/Walk/Walk Body "]
-enemy_shadow_paths = ["Skin2_x256_Spritesheets/x256_Spritesheets/Idle/Idle Body ","Skin2_x256_Spritesheets/x256_Spritesheets/Walk/Walk Body "]
-
+enemy_paths = ["Skin2_x256_Spritesheets/x256_Spritesheets/Idle/Idle Body ","Skin2_x256_Spritesheets/x256_Spritesheets/Walk/Walk Body ",
+                "Skin2_x256_Spritesheets/x256_Spritesheets/Attack1/Attack1 Body "]
+enemy_shadow_paths = ["Skin2_x256_Spritesheets/x256_Spritesheets/Idle/Idle Body ","Skin2_x256_Spritesheets/x256_Spritesheets/Walk/Walk Body ",
+            "Skin2_x256_Spritesheets/x256_Spritesheets/Attack1/Attack1 Body "]
 prop_paths = ["Props/1024x1024/Arrow_Far/Arrow_Far_"]
 BASE_IMG_PATH = 'data/images/'
 
@@ -18,12 +19,14 @@ def load_image(path):
     img = pygame.image.load(BASE_IMG_PATH + path).convert_alpha()
     return img
 
-def load_sprite_sheet(path):
+def load_sprite_sheet(path, scale, factor):
     angles = [0, 22, 45, 67, 90, 112, 135, 157, 180, 202, 225, 247, 270, 292, 315, 337]
     sheets = {}
     for angle in angles:
         formatted_angle = f"{angle:03d}"
         sheets[angle] = load_image(path + f"{formatted_angle}.png").convert_alpha()
+        if scale:
+            sheets[angle] = scale_image(sheets[angle], factor)
     return sheets
 
 def load_images(path):

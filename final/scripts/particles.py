@@ -79,43 +79,61 @@ class ParticleEmitter:
             r_y = random.randint(1,4)
             self.particles.append(Particle([self.pos[0] + r_x, self.pos[1] - r_y], [0 ,-40 + v_y] , [0,0,255], 2, self.img))
 
-
-
 class BasicParticle:
-    def __init__(self, initial_pos, vel, color, radius, circle_radius):
-        self.initial_pos = initial_pos[:]  # Store the initial position
-        self.pos = initial_pos[:]  # Current position, starts at initial position
-        self.vel = vel[:]  # Velocity of the particle
+    def __init__(self, pos, vel, color, radius):
+        self.pos = pos[:]  
+        self.vel = vel[:]  
         self.color = color
         self.radius = radius
-        self.angle = 0  # Initial angle for circular motion
-        self.circle_radius = circle_radius  # Radius of the circular path
+
 
     def update(self, dt):
-        # Move the particle to the right based on velocity
-        self.vel[0] += 50*dt
-        self.pos[0] += self.vel[0] * dt  # Horizontal movement
+        self.vel[0] += 50 * dt 
+        self.vel[1] += 0 *dt
+        self.pos[0] += self.vel[0] * dt  
+        self.pos[1] += self.vel[1] * dt
 
-        # Update angle for circular motion
-        self.angle += 5 * dt  # Increase angle for circular motion
-        if self.angle > 2 * math.pi:  # Keep angle within 0 to 2*pi radians
-            self.angle -= 2 * math.pi
 
-        # Calculate the center of the circular motion
-        center_x = self.pos[0]  # Center moves with the particle's x position
-        center_y = self.initial_pos[1]  # Keep the initial y position for circular motion
-
-        # Update the position using circular motion equations
-        # The particle's position is offset from the center
-        self.pos[0] = center_x + (self.circle_radius * math.cos(self.angle))  # Particle's new x position
-        self.pos[1] = center_y + (self.circle_radius * math.sin(self.angle))  # Particle's new y position
-
-        # Print position for debugging
-        #print(f"Position: {self.pos}")
-
+        
     def draw(self, screen):
-        # Draw the particle as a circle
         pygame.draw.circle(screen, self.color, (int(self.pos[0]), int(self.pos[1])), self.radius)
+        
+
+# class BasicParticle:
+#     def __init__(self, initial_pos, vel, color, radius, circle_radius):
+#         self.initial_pos = initial_pos[:]  # Store the initial position
+#         self.pos = initial_pos[:]  # Current position, starts at initial position
+#         self.vel = vel[:]  # Velocity of the particle
+#         self.color = color
+#         self.radius = radius
+#         self.angle = 0  # Initial angle for circular motion
+#         self.circle_radius = circle_radius  # Radius of the circular path
+
+#     def update(self, dt):
+#         # Move the particle to the right based on velocity
+#         self.vel[0] += 50*dt
+#         self.pos[0] += self.vel[0] * dt  # Horizontal movement
+
+#         # Update angle for circular motion
+#         self.angle += 5 * dt  # Increase angle for circular motion
+#         if self.angle > 2 * math.pi:  # Keep angle within 0 to 2*pi radians
+#             self.angle -= 2 * math.pi
+
+#         # Calculate the center of the circular motion
+#         center_x = self.pos[0]  # Center moves with the particle's x position
+#         center_y = self.initial_pos[1]  # Keep the initial y position for circular motion
+
+#         # Update the position using circular motion equations
+#         # The particle's position is offset from the center
+#         self.pos[0] = center_x + (self.circle_radius * math.cos(self.angle))  # Particle's new x position
+#         self.pos[1] = center_y + (self.circle_radius * math.sin(self.angle))  # Particle's new y position
+
+#         # Print position for debugging
+#         #print(f"Position: {self.pos}")
+
+#     def draw(self, screen):
+#         # Draw the particle as a circle
+#         pygame.draw.circle(screen, self.color, (int(self.pos[0]), int(self.pos[1])), self.radius)
 
 
 

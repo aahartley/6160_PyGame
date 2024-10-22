@@ -3,11 +3,14 @@ from scripts.utils import load_image, load_images, sprite_frame_dict, load_sprit
 
 #index 0 = idle_bow, index 1 = walk_forward_bow, index 2 = attack_bow, index 3 = death_bow
 class Animation:
-    def __init__(self, player_path, player_shadow_path, frame_set, fps):
+    def __init__(self, player_path, player_shadow_path, frame_set, fps, scale, factor):
+        self.player_path = player_path
+        self.player_shadow_path = player_shadow_path
+        self.fps = fps
         self.frame_time = 1/fps
         self.time = 0
-        self.sheets = load_sprite_sheet(player_path)
-        self.shadow_sheets = load_sprite_sheet(player_shadow_path)
+        self.sheets = load_sprite_sheet(player_path, scale, factor)
+        self.shadow_sheets = load_sprite_sheet(player_shadow_path, scale, factor)
         self.frame_set = frame_set
         self.frame = 0
         self.active_sheet = self.sheets[0]
@@ -18,7 +21,7 @@ class Animation:
 
 
 
-    def update(self, state, dt, angle):
+    def update(self, dt, angle):
         self.time += dt
         available_angles = list(self.sheets.keys())
         closest_angle = min(available_angles, key=lambda x: abs(x - angle))
@@ -39,7 +42,7 @@ class Animation:
         return self.frame_set[self.frame]
 
     def get_current_frames(self):
-        return self.active_sheet.subsurface(self.active_sheet.get_clip()), self.active_shadow_sheet.subsurface(self.active_sheet.get_clip())
+        return self.active_sheet.subsurface(self.active_sheet.get_clip()), self.active_shadow_sheet.subsurface(self.active_sheet.get_clip()).convert_alpha()
 
     def check_loop(self):
         return self.loop
@@ -50,5 +53,21 @@ class Animation:
         self.loop = False
 
 
+    def copy(self):
+        """Create a copy of the Animation object without reloading sprite sheets."""
+        copied_animation = Animation.__new__(Animation)  # Create a new instance without calling __init__
         
-   
+        # Assign shared resources
+        copied_animation.sheets = self.sheets  # Share reference to the loaded sprite sheets
+        copied_animation.shadow_sheets = self.shadow_sheets  # Share reference to the loaded shadow sheets
+        
+        # Copy other necessary attributes
+        copied_animation.frame_set = self.frame_set
+        copied_animation.frame_time = self.frame_time
+        copied_animation.time = self.time
+        copied_animation.frame = self.frame
+        copied_animation.active_sheet = self.active_sheet  # Share reference to the active sheet
+        copied_animation.active_shadow_sheet = self.active_shadow_sheet  # Share reference to the active shadow sheet
+        copied_animation.loop = self.loop
+        
+        return copied_animation

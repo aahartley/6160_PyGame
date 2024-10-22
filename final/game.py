@@ -29,8 +29,9 @@ class Game:
 
         self.player = char.Character([self.width//2, self.height//2])
         self.floor = tile.Tile(self.width, self.height)
-        self.pa = BasicParticle([0, self.height//2], [0,0], (255,0,0), 4,3)
-        #self.enemy = en.Enemy([self.width//2,self.height//2])
+        #self.enemy = en.Enemy([self.width//4,self.height//2])
+        #self.pa = BasicParticle([0, self.height//2], [0,0], (255,0,0), 4,3)
+        self.pa = BasicParticle([0, self.height//2], [0,0], (255,0,0), 4)
 
 
     def run(self):
@@ -66,7 +67,14 @@ class Game:
                           
             self.player.update(dt)
             self.player.draw(self.screen)
-            # pygame.draw.rect(self.screen, (255,0,0), self.player.rect, 1)
+            pygame.draw.rect(self.screen, (255,0,0), self.player.rect, 1)
+            #print(self.player.rect)
+            pos = pygame.Rect((self.player.position[0], self.player.position[1],320,320))
+            pos.center = self.player.position
+            pygame.draw.rect(self.screen, (0,255,0),pos , 1)
+            # if self.player.target_position != None:
+            #     pygame.draw.line(self.screen, (0,255,0), self.player.position, self.player.target_position)
+
             # pygame.draw.line(self.screen, (255,0,0), (self.width//2, 0), (self.width//2,self.height))
             # pygame.draw.line(self.screen, (255,0,0), (0, self.height//2), (self.width,self.height//2))
             #self.enemy.update(dt)
