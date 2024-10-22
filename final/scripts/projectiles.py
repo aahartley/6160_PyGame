@@ -48,7 +48,7 @@ class Projectile:
             screen.blit(self.shadow_image, self.rect)
             #screen.blit(self.image, (topleft[0]-1, topleft[1]+25))
             screen.blit(self.image, self.rect)
-            pygame.draw.rect(screen, (0,255,0),self.rect , 1)
+            #pygame.draw.rect(screen, (0,255,0),self.rect , 1)
 
     def calculate_angle(self, position, target_position):
         direction_vector = target_position - position

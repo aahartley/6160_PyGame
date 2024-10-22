@@ -67,11 +67,14 @@ class Game:
                           
             self.player.update(dt)
             self.player.draw(self.screen)
-            pygame.draw.rect(self.screen, (255,0,0), self.player.rect, 1)
+            # pygame.draw.rect(self.screen, (255,0,0), self.player.rect, 1)
+            # pygame.draw.line(self.screen, (255,0,0), (self.player.rect.width//2+self.player.rect.x,self.player.rect.y ), (self.player.rect.width//2+self.player.rect.x,self.player.rect.y + self.player.rect.height))
+            # pygame.draw.line(self.screen, (255,0,0), (self.player.rect.x, self.player.rect.height//2+self.player.rect.y), (self.player.rect.x + self.player.rect.width,self.player.rect.height//2+self.player.rect.y))
             #print(self.player.rect)
-            pos = pygame.Rect((self.player.position[0], self.player.position[1],320,320))
-            pos.center = self.player.position
-            pygame.draw.rect(self.screen, (0,255,0),pos , 1)
+            # pos = pygame.Rect((self.player.position[0], self.player.position[1],320,320))
+
+            # pos.center = self.player.position
+            # pygame.draw.rect(self.screen, (0,255,0),pos , 1)
             # if self.player.target_position != None:
             #     pygame.draw.line(self.screen, (0,255,0), self.player.position, self.player.target_position)
 

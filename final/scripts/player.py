@@ -11,7 +11,7 @@ class Character(pygame.sprite.Sprite):
 
         self.animations = {
             'idle': ani.Animation(utils.player_paths[0], utils.player_shadow_paths[0], utils.sprite_frame_dict(4, 4, 320, 320), 30, False, 0),
-            'walk': ani.Animation(utils.player_paths[1], utils.player_shadow_paths[1], utils.sprite_frame_dict(4, 5, 320, 320), 60, False, 0),
+            'walk': ani.Animation(utils.player_paths[1], utils.player_shadow_paths[1], utils.sprite_frame_dict(4, 6, 320, 320), 60, False, 0),
             'attack': ani.Animation(utils.player_paths[2],utils.player_shadow_paths[2], utils.sprite_frame_dict(4, 6, 320, 320), 100, False, 0)#100
         }
         self.attack_animations = {
@@ -76,33 +76,34 @@ class Character(pygame.sprite.Sprite):
 
      
 
+    def draw(self, screen):
+        self.image, self.shadow_image = self.current_animation.get_current_frames()
+
+        self.mask = pygame.mask.from_surface(self.image)
+        self.rect = self.image.get_bounding_rect()
+        self.rect.center = self.position
+        local_centroid = list(self.mask.centroid())  # local space
+        local_centroid[1] += 10
+        drawing_rect = self.image.get_rect()
+        #distance from pos to (0,0) topleft corner
+        offset_x = self.position[0] - local_centroid[0]
+        offset_y = self.position[1] - local_centroid[1]
+
+        drawing_rect.x = offset_x
+        drawing_rect.y = offset_y
+
+        screen.blit(self.shadow_image, drawing_rect)
+        screen.blit(self.image, drawing_rect)
+
+        for p in self.projectiles:
+            p.draw(screen)
+            #pygame.draw.line(screen, (0, 255, 0), p.position, p.target_position)
+
+        # pygame.draw.circle(screen, (255, 0, 0), self.position, 3) 
+        # pygame.draw.circle(screen, (0, 255, 0), (drawing_rect.x + local_centroid[0], drawing_rect.y + local_centroid[1]), 3)
 
   
     
-    def draw(self, screen):
-        self.image, self.shadow_image = self.current_animation.get_current_frames()
-        self.mask = pygame.mask.from_surface(self.image)
-        #self.rect = self.image.get_rect()
-        self.rect = self.image.get_bounding_rect()
-        center = self.mask.centroid()
-
-        self.rect.centerx = self.position[0]
-        self.rect.centery = self.position[1]
-        self.rect.center = self.position
-
-   
-        drawing_rect = self.image.get_rect()
-        drawing_rect.centerx = self.position[0]
-        drawing_rect.centery = self.position[1]-(self.position[1] - center[1])//8
-
-        
-        #screen.blit(self.shadow_image, (topleft[0]-1, topleft[1]-1))
-        screen.blit(self.shadow_image, drawing_rect)
-        #screen.blit(self.image, (topleft[0]-1, topleft[1]+25))
-        screen.blit(self.image, drawing_rect)
-        for p in self.projectiles:
-            p.draw(screen)
-            pygame.draw.line(screen, (0,255,0), p.position, p.target_position)
 
 
 
