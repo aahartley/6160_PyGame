@@ -82,7 +82,7 @@ class Character(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_bounding_rect()
         self.rect.center = self.position
-        local_centroid = list(self.mask.centroid())  # local space
+        local_centroid = pygame.Vector2(self.mask.centroid())  # local space
         local_centroid[1] += 10
         drawing_rect = self.image.get_rect()
         #distance from pos to (0,0) topleft corner
@@ -95,6 +95,17 @@ class Character(pygame.sprite.Sprite):
         screen.blit(self.shadow_image, drawing_rect)
         screen.blit(self.image, drawing_rect)
 
+
+        bow_pos = pygame.Vector2(local_centroid)
+        bow_pos[0] += 50
+        bow_pos[1] -= 25
+        calc_real_angle = self.calc_real_angle(bow_pos,local_centroid )
+        available_angles = list(self.current_animation.sheets.keys())
+        closest_angle = min(available_angles, key=lambda x: abs(x - (calc_real_angle))) 
+        print(closest_angle)
+        bow_pos[0] = math.cos(math.radians(closest_angle)) * (bow_pos[0]-local_centroid[0]) - math.sin(math.radians(closest_angle)) * (bow_pos[1]-local_centroid[1]) + local_centroid[0]
+        bow_pos[1] = math.sin(math.radians(closest_angle)) * (bow_pos[0]-local_centroid[0]) + math.cos(math.radians(closest_angle)) * (bow_pos[1]-local_centroid[1]) + local_centroid[1]
+
         for p in self.projectiles:
             p.draw(screen)
             #pygame.draw.line(screen, (0, 255, 0), p.position, p.target_position)
@@ -102,7 +113,8 @@ class Character(pygame.sprite.Sprite):
         # pygame.draw.circle(screen, (255, 0, 0), self.position, 3) 
         # pygame.draw.circle(screen, (0, 255, 0), (drawing_rect.x + local_centroid[0], drawing_rect.y + local_centroid[1]), 3)
 
-  
+        pygame.draw.circle(screen, (0, 255, 0), (drawing_rect.x + bow_pos[0], drawing_rect.y + bow_pos[1]), 2)
+
     
 
 
@@ -132,7 +144,7 @@ class Character(pygame.sprite.Sprite):
                         if self.state != 'attack':
                             mouse_pos = pygame.mouse.get_pos()
                             self.angle = self.calculate_angle(pygame.Vector2(self.rect.center), mouse_pos)
-                            print(self.angle)
+                            #print(self.angle)
                             self.projectiles.append(proj.Projectile(self.attack_animations['basic_arrow_attack'].copy(), pygame.Vector2(self.rect.center), mouse_pos))
 
                         self.change_state('attack', False)
@@ -146,3 +158,10 @@ class Character(pygame.sprite.Sprite):
             angle = (angle+90) % 360
             return angle
 
+
+    def calc_real_angle(self, position, target_position):
+            direction_vector = target_position - position
+            radians = math.atan2(-direction_vector.y, direction_vector.x)  
+            angle = math.degrees(radians) % 360  
+            angle = (angle) % 360
+            return angle
