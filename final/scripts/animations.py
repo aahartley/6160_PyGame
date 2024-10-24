@@ -24,7 +24,8 @@ class Animation:
     def update(self, dt, angle):
         self.time += dt
         available_angles = list(self.sheets.keys())
-        closest_angle = min(available_angles, key=lambda x: abs(x - angle))
+        closest_angle = min(available_angles, key=lambda x: abs(x - angle))#357 closer to 0, fix
+        #print(closest_angle)
         self.active_sheet = self.sheets[closest_angle]
         self.active_shadow_sheet = self.shadow_sheets[closest_angle]
         frame_in_frame_set = self.get_frame()
@@ -54,20 +55,16 @@ class Animation:
 
 
     def copy(self):
-        """Create a copy of the Animation object without reloading sprite sheets."""
-        copied_animation = Animation.__new__(Animation)  # Create a new instance without calling __init__
+        copied_animation = Animation.__new__(Animation) 
         
-        # Assign shared resources
-        copied_animation.sheets = self.sheets  # Share reference to the loaded sprite sheets
-        copied_animation.shadow_sheets = self.shadow_sheets  # Share reference to the loaded shadow sheets
-        
-        # Copy other necessary attributes
+        copied_animation.sheets = self.sheets  
+        copied_animation.shadow_sheets = self.shadow_sheets  
         copied_animation.frame_set = self.frame_set
         copied_animation.frame_time = self.frame_time
         copied_animation.time = self.time
         copied_animation.frame = self.frame
-        copied_animation.active_sheet = self.active_sheet  # Share reference to the active sheet
-        copied_animation.active_shadow_sheet = self.active_shadow_sheet  # Share reference to the active shadow sheet
+        copied_animation.active_sheet = self.active_sheet  
+        copied_animation.active_shadow_sheet = self.active_shadow_sheet  
         copied_animation.loop = self.loop
         
         return copied_animation
